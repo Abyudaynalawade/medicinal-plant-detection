@@ -23,61 +23,7 @@ Make sure you have the following installed on your machine:
 1. Clone this repository:
    ```bash
    git clone https://github.com/Abyudaynalawade/medicinal-plant-detection.git
-Create a virtual environment (optional but recommended):
 
-bash
-Copy
-Edit
-python -m venv venv
-Activate the virtual environment:
-
-On Windows:
-
-bash
-Copy
-Edit
-venv\Scripts\activate
-On macOS/Linux:
-
-bash
-Copy
-Edit
-source venv/bin/activate
-Install the required dependencies:
-
-bash
-Copy
-Edit
-pip install -r requirements.txt
-Run the Flask app:
-
-bash
-Copy
-Edit
-python app.py
-Open your browser and visit http://127.0.0.1:5000/ to use the application.
-
-Usage
-Upload an image of a plant using the web interface.
-
-The app will classify the plant and display the results.
-
-Technologies Used
-Python (for development)
-
-Flask (for web server)
-
-PyTorch (for deep learning model)
-
-Git (for version control)
-
-Git LFS (for large file storage)
-
-File Structure
-php
-Copy
-Edit
-.
 ├── app.py                  # Flask application
 ├── plant_model.py           # The trained model file
 ├── requirements.txt         # List of required Python packages
@@ -88,22 +34,6 @@ Edit
 ├── venv/                    # Virtual environment
 ├── .gitignore               # Git ignore file
 └── README.md                # This file
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Acknowledgments
-This project was inspired by the need to identify and classify medicinal plants for various applications.
-
-Thanks to the open-source community for contributing to the resources used in this project.
-
-vbnet
-Copy
-Edit
-
-This is a basic template, and you can update sections like technologies, features, and installation instructions depending on the specifics of your project! Let me know if you'd like to make any changes.
-
-
-
 
 
 
