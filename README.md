@@ -94,8 +94,11 @@ Edit
 ├── venv/                    # Virtual environment
 ├── .gitignore               # Git ignore file
 └── README.md                # This file
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
+Acknowledgments
+This project was inspired by the need to identify and classify medicinal plants for various applications.
 
-
-
+Thanks to the open-source community for contributing to the resources used in this project.
 
