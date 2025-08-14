@@ -1,10 +1,14 @@
+
 import torch
 import torch.nn.functional as F
 from torchvision import models, transforms
 from PIL import Image
 import os
+import warnings
 
-# Load class names (assuming you know them)
+warnings.filterwarnings("ignore")
+
+# Class names
 class_names = [
     'Aloevera', 'Amla', 'Amruta_Balli', 'Arali', 'Ashoka', 'Ashwagandha', 'Avacado', 'Bamboo',
     'Basale', 'Betel', 'Betel_Nut', 'Brahmi', 'Castor', 'Curry_Leaf', 'Doddapatre', 'Ekka',
@@ -13,8 +17,7 @@ class_names = [
     'Pepper', 'Pomegranate', 'Raktachandini', 'Rose', 'Sapota', 'Tulasi', 'Wood_sorel'
 ]
 
-
-# Define transform (must match training/val)
+# Transform
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
@@ -22,22 +25,32 @@ transform = transforms.Compose([
                          [0.229, 0.224, 0.225])
 ])
 
-# Load model
+# Device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-model = models.resnet50(pretrained=True)
-model.fc = torch.nn.Sequential(
-    torch.nn.Linear(model.fc.in_features, 512),
-    torch.nn.ReLU(),
-    torch.nn.Dropout(0.5),
-    torch.nn.Linear(512, len(class_names))
-)
-model.load_state_dict(torch.load(r'C:\Users\abhyu\project\resnet50_medicinal_plants_best.pth', map_location=device))
-model.to(device)
-model.eval()
+# Lazy-load model
+_model = None
+def load_model():
+    global _model
+    if _model is None:
+        # Use a smaller model for Railway free tier
+        _model = models.resnet18(weights=None)
+        _model.fc = torch.nn.Sequential(
+            torch.nn.Linear(_model.fc.in_features, 512),
+            torch.nn.ReLU(),
+            torch.nn.Dropout(0.5),
+            torch.nn.Linear(512, len(class_names))
+        )
+        # Load weights from relative path in repo (Linux compatible)
+        weight_path = os.path.join(os.path.dirname(__file__), "resnet50_medicinal_plants_best.pth")
+        _model.load_state_dict(torch.load(weight_path, map_location=device))
+        _model.to(device)
+        _model.eval()
+    return _model
 
-# Predict function
+# Predict
 def predict(image_path):
+    model = load_model()
     image = Image.open(image_path).convert('RGB')
     img_tensor = transform(image).unsqueeze(0).to(device)
 
